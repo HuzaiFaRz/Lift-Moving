@@ -68,13 +68,15 @@ body {
 
 .lift-left-door {
   left: 0;
-  background: rgb(0, 0, 0, 0.2);
+  background: rgb(0, 0, 0, 0.9);
 }
 
 .lift-right-door {
   right: 0;
-  background: rgb(0, 0, 0, 0.8);
+  background: rgb(0, 0, 0, 0.9);
 }
+
+
 
 .lift-buttons {
   width: 140px;
