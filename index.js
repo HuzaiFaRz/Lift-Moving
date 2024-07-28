@@ -63,7 +63,7 @@ liftBtn.forEach((liftBtnElem) => {
           top: liftFloorElem.getBoundingClientRect().top + "px",
           bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
           duration: 3,
-          ease: Power3.easeInOut,
+          ease: Power1.easeInOut,
           onComplete: () => {
             setTimeout(liftOpenDoor, 0);
             setTimeout(liftCloseDoor, 2000);
