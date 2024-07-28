@@ -31,7 +31,7 @@ body {
 .gfloor {
   width: 100%;
   height: 100px;
-  background-color: grey;
+  background-color: black;
   border-bottom: 2px solid white;
   display: flex;
   flex-direction: column;
@@ -39,6 +39,7 @@ body {
   align-items: center;
   font-size: 30px;
   color: white;
+  mix-blend-mode: overlay;
 }
 .lift {
   position: absolute;
@@ -47,7 +48,7 @@ body {
   right: 0px;
   width: 100%;
   height: 100px;
-  background: rgb(0, 0, 0, 0.6);
+  background-color: rgb(128, 128, 128, 0.4);
 }
 
 .lift-doors {
@@ -68,15 +69,13 @@ body {
 
 .lift-left-door {
   left: 0;
-  background: rgb(0, 0, 0, 0.9);
+  background-color: rgb(233, 150, 122, 0.5);
 }
 
 .lift-right-door {
   right: 0;
-  background: rgb(0, 0, 0, 0.9);
+  background-color: rgb(233, 150, 122, 0.5);
 }
-
-
 
 .lift-buttons {
   width: 140px;
