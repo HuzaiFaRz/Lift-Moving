@@ -24,7 +24,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content:center;
   align-items: center;
 }
 .floor,
@@ -39,13 +39,9 @@ body {
   align-items: center;
   font-size: 30px;
   color: white;
-  mix-blend-mode: overlay;
 }
 .lift {
   position: absolute;
-  bottom: 11%;
-  left: 0px;
-  right: 0px;
   width: 100%;
   height: 100px;
   background-color: rgb(128, 128, 128, 0.4);
@@ -65,16 +61,15 @@ body {
   top: 0;
   width: 50%;
   height: 100%;
+  background: linear-gradient(rgb(190, 190, 190), gray);
 }
 
 .lift-left-door {
   left: 0;
-  background-color: rgb(233, 150, 122, 0.5);
 }
 
 .lift-right-door {
   right: 0;
-  background-color: rgb(233, 150, 122, 0.5);
 }
 
 .lift-buttons {

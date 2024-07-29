@@ -5,6 +5,13 @@ const lift = document.querySelector(".lift");
 const liftLeftDoor = document.querySelector(".lift-left-door");
 const liftRightDoor = document.querySelector(".lift-right-door");
 
+gsap.to(lift, {
+  top: liftFloor[6].getBoundingClientRect().top + "px",
+  duration: 0,
+});
+
+let index = 0;
+
 const liftOpenDoor = () => {
   gsap.to(liftLeftDoor, {
     x: "-100%",
@@ -32,27 +39,23 @@ const liftCloseDoor = () => {
 };
 
 const liftBtnVisible = () => {
-  {
-    liftBtn.forEach((e) => {
-      gsap.to(e, {
-        cursor: "pointer",
-        opacity: 1,
-        zIndex: 1,
-      });
+  liftBtn.forEach((e) => {
+    gsap.to(e, {
+      cursor: "pointer",
+      opacity: 1,
+      zIndex: 1,
     });
-  }
+  });
 };
 
 const liftBtnUnVisible = () => {
-  {
-    liftBtn.forEach((e) => {
-      gsap.to(e, {
-        cursor: "default",
-        opacity: 0.5,
-        zIndex: -1,
-      });
+  liftBtn.forEach((e) => {
+    gsap.to(e, {
+      cursor: "default",
+      opacity: 0.5,
+      zIndex: -1,
     });
-  }
+  });
 };
 
 liftBtn.forEach((liftBtnElem) => {
@@ -71,7 +74,40 @@ liftBtn.forEach((liftBtnElem) => {
           },
         });
         liftBtnUnVisible();
+
+        // if (t.currentTarget.textContent === liftFloorElem.textContent) {
+        //   gsap.to(lift, {
+        //     top: liftFloorElem.getBoundingClientRect().top + "px",
+        //     bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
+        //     duration: 3,
+        //     ease: Power1.easeInOut,
+        //     onComplete: () => {
+        //       setTimeout(liftOpenDoor, 0);
+        //       setTimeout(liftCloseDoor, 2000);
+        //       setTimeout(liftBtnVisible, 2500);
+        //     },
+        //   });
+        //   liftBtnUnVisible();
+        // }
       }
+      liftBtnElem.addEventListener("click", (t) => {
+        liftFloor.forEach((liftFloorElem) => {
+          if (t.currentTarget.textContent === liftFloorElem.textContent) {
+            gsap.to(lift, {
+              top: liftFloorElem.getBoundingClientRect().top + "px",
+              bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
+              duration: 0,
+              ease: Power1.easeInOut,
+              onComplete: () => {
+                setTimeout(liftOpenDoor, 0);
+                setTimeout(liftCloseDoor, 2000);
+                setTimeout(liftBtnVisible, 2500);
+              },
+            });
+            liftBtnUnVisible();
+          }
+        });
+      });
     });
   });
 });
