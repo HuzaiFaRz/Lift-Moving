@@ -10,6 +10,36 @@ gsap.to(lift, {
   duration: 0,
 });
 
+const floorsArray = [
+  liftFloor[0].textContent,
+  liftFloor[1].textContent,
+  liftFloor[2].textContent,
+  liftFloor[3].textContent,
+  liftFloor[4].textContent,
+  liftFloor[5].textContent,
+  liftFloor[6].textContent,
+];
+
+const liftBtnsArray = [
+  liftBtn[0].textContent,
+  liftBtn[1].textContent,
+  liftBtn[2].textContent,
+  liftBtn[3].textContent,
+  liftBtn[4].textContent,
+  liftBtn[5].textContent,
+  liftBtn[6].textContent,
+];
+
+for (let index = 0; index < floorsArray.length; index++) {
+  console.log(index);
+}
+
+console.log(this);
+
+for (let index = 0; index < liftBtnsArray.length; index++) {
+  console.log(index);
+}
+
 let index = 0;
 
 const liftOpenDoor = () => {
