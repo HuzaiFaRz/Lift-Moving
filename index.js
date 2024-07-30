@@ -4,7 +4,7 @@ const liftFloor = document.querySelectorAll(".floor");
 const lift = document.querySelector(".lift");
 const liftLeftDoor = document.querySelector(".lift-left-door");
 const liftRightDoor = document.querySelector(".lift-right-door");
-
+let btnClickCheck = 0;
 gsap.to(lift, {
   top: liftFloor[6].getBoundingClientRect().top + "px",
   duration: 0,
@@ -60,6 +60,7 @@ const liftBtnUnVisible = () => {
 
 liftBtn.forEach((liftBtnElem) => {
   liftBtnElem.addEventListener("click", (t) => {
+    btnClickCheck++;
     liftFloor.forEach((liftFloorElem) => {
       if (t.currentTarget.textContent === liftFloorElem.textContent) {
         gsap.to(lift, {
@@ -71,42 +72,29 @@ liftBtn.forEach((liftBtnElem) => {
             setTimeout(liftOpenDoor, 0);
             setTimeout(liftCloseDoor, 2000);
             setTimeout(liftBtnVisible, 2500);
+            console.log("complete 1");
           },
         });
         liftBtnUnVisible();
-
-        // if (t.currentTarget.textContent === liftFloorElem.textContent) {
-        //   gsap.to(lift, {
-        //     top: liftFloorElem.getBoundingClientRect().top + "px",
-        //     bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
-        //     duration: 3,
-        //     ease: Power1.easeInOut,
-        //     onComplete: () => {
-        //       setTimeout(liftOpenDoor, 0);
-        //       setTimeout(liftCloseDoor, 2000);
-        //       setTimeout(liftBtnVisible, 2500);
-        //     },
-        //   });
-        //   liftBtnUnVisible();
-        // }
       }
-      liftBtnElem.addEventListener("click", (t) => {
-        liftFloor.forEach((liftFloorElem) => {
-          if (t.currentTarget.textContent === liftFloorElem.textContent) {
-            gsap.to(lift, {
-              top: liftFloorElem.getBoundingClientRect().top + "px",
-              bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
-              duration: 0,
-              ease: Power1.easeInOut,
-              onComplete: () => {
-                setTimeout(liftOpenDoor, 0);
-                setTimeout(liftCloseDoor, 2000);
-                setTimeout(liftBtnVisible, 2500);
-              },
-            });
-            liftBtnUnVisible();
-          }
-        });
+    });
+    liftBtnElem.addEventListener("click", (t) => {
+      liftFloor.forEach((liftFloorElem) => {
+        if (t.currentTarget.textContent === liftFloorElem.textContent) {
+          gsap.to(lift, {
+            top: liftFloorElem.getBoundingClientRect().top + "px",
+            bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
+            duration: 0,
+            ease: Power1.easeInOut,
+            onComplete: () => {
+              setTimeout(liftOpenDoor, 0);
+              setTimeout(liftCloseDoor, 2000);
+              setTimeout(liftBtnVisible, 2500);
+              console.log("complete 2");
+            },
+          });
+          liftBtnUnVisible();
+        }
       });
     });
   });
