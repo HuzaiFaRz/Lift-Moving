@@ -1,4 +1,3 @@
-
 const liftOpenDoor = () => {
   gsap.to(liftLeftDoor, {
     x: "-100%",
@@ -64,23 +63,27 @@ gsap.to(lift, {
 
 const floorRequest = [];
 
-
 Array.from(liftBtns).forEach((liftBtnsElem, liftBtnsIndex) => {
   liftBtnsElem.addEventListener("click", (liftBtnsElemTarget) => {
     Array.from(Floors).forEach((FloorsElem, FloorIndex) => {
       liftAnimate = true;
+      floorRequest.push(FloorIndex);
+
+      console.log(floorRequest);
 
       if (liftAnimate) {
-        if (FloorsElem.textContent === liftBtnsElem.textContent) {
+        if (
+          FloorsElem.textContent ===
+          liftBtnsElemTarget.currentTarget.textContent
+        ) {
           gsap.to(lift, {
             top: FloorsElem.getBoundingClientRect().top + "px",
             bottom: FloorsElem.getBoundingClientRect().bottom + "px",
             duration: 1,
           });
         }
-
-        liftAnimate = false;
       }
+      liftAnimate = false;
     });
   });
 });
