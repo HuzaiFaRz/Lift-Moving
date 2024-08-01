@@ -1,26 +1,26 @@
 const liftOpenDoor = () => {
   gsap.to(liftLeftDoor, {
     x: "-100%",
-    duration: 2,
+    duration: 1,
     ease: Power1.easeInOut,
     onComplete: () => {
       gsap.to(liftLeftDoor, {
         x: 0,
         delay: 1,
-        duration: 2,
+        duration: 1,
         ease: Power1.easeInOut,
       });
     },
   });
   gsap.to(liftRightDoor, {
     x: "100%",
-    duration: 2,
+    duration: 1,
     ease: Power1.easeInOut,
     onComplete: () => {
       gsap.to(liftRightDoor, {
         x: 0,
         delay: 1,
-        duration: 2,
+        duration: 1,
         ease: Power1.easeInOut,
       });
     },
@@ -61,74 +61,52 @@ gsap.to(lift, {
   duration: 0,
 });
 
-const floorRequest = [];
+const floorRequestArray = [];
 
-Array.from(liftBtns).forEach((liftBtnsElem, liftBtnsIndex) => {
+const flooranimationChecker = () => {
+  if (floorRequestArray.length === 0) {
+    liftAnimate = false;
+    return;
+  }
+
+  liftAnimate = true;
+  let floorRequestArrayIndex = floorRequestArray.shift();
+
+  gsap.to(lift, {
+    top: Floors[floorRequestArrayIndex].getBoundingClientRect().top + "px",
+    duration: 1,
+    onComplete: () => {
+      liftOpenDoor();
+      setTimeout(() => {
+        flooranimationChecker();
+        gsap.to(liftBtns[floorRequestArrayIndex], {
+          backgroundColor: "gray",
+        });
+      }, 3000);
+    },
+  });
+};
+flooranimationChecker();
+
+Array.from(liftBtns).forEach((liftBtnsElem) => {
   liftBtnsElem.addEventListener("click", (liftBtnsElemTarget) => {
-    Array.from(Floors).forEach((FloorsElem, FloorIndex) => {
-      liftAnimate = true;
-      floorRequest.push(FloorIndex);
-
-      console.log(floorRequest);
-
-      if (liftAnimate) {
-        if (
-          FloorsElem.textContent ===
-          liftBtnsElemTarget.currentTarget.textContent
-        ) {
-          gsap.to(lift, {
-            top: FloorsElem.getBoundingClientRect().top + "px",
-            bottom: FloorsElem.getBoundingClientRect().bottom + "px",
-            duration: 1,
-          });
-        }
-      }
-      liftAnimate = false;
+    gsap.to(liftBtnsElem, {
+      backgroundColor: "black",
     });
+
+    const FloorsFinder = Array.from(Floors).findIndex((e) => {
+      console.log(e.textContent);
+      return e.textContent === liftBtnsElemTarget.currentTarget.textContent;
+    });
+
+    if (FloorsFinder || !FloorsFinder) {
+      floorRequestArray.push(FloorsFinder);
+      gsap.to(liftBtns[FloorsFinder], {
+        backgroundColor: "black",
+      });
+      if (!liftAnimate) {
+        flooranimationChecker();
+      }
+    }
   });
 });
-
-// liftBtns.forEach((liftBtnElem) => {
-//   liftBtnElem.addEventListener("click", (t) => {
-//     liftFloorArray.push(t.currentTarget.textContent);
-
-//     liftFloor.forEach((liftFloorElem) => {
-//       if (t.currentTarget.textContent === liftFloorElem.textContent) {
-//         gsap.to(lift, {
-//           top: liftFloorElem.getBoundingClientRect().top + "px",
-//           bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
-//           duration: 3,
-//           ease: Power1.easeInOut,
-//           onComplete: () => {
-//             setTimeout(liftOpenDoor, 0);
-//             setTimeout(liftCloseDoor, 2000);
-//             // setTimeout(liftBtnVisible, 2500);
-//             // console.log("complete 1");
-//           },
-//         });
-//         // liftFloorArray.pop(t.currentTarget.textContent);
-//         // liftBtnUnVisible();
-//       }
-//     });
-
-//     // liftBtnElem.addEventListener("click", (t) => {
-//     //   liftFloor.forEach((liftFloorElem) => {
-//     //     if (t.currentTarget.textContent === liftFloorElem.textContent) {
-//     //       gsap.to(lift, {
-//     //         top: liftFloorElem.getBoundingClientRect().top + "px",
-//     //         bottom: liftFloorElem.getBoundingClientRect().bottom + "px",
-//     //         duration: 0,
-//     //         ease: Power1.easeInOut,
-//     //         onComplete: () => {
-//     //           setTimeout(liftOpenDoor, 0);
-//     //           setTimeout(liftCloseDoor, 2000);
-//     //           // setTimeout(liftBtnVisible, 2500);
-//     //           console.log("complete 2");
-//     //         },
-//     //       });
-//     //       // liftBtnUnVisible();
-//     //     }
-//     //   });
-//     // });
-//   });
-// });
