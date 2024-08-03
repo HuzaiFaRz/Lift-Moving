@@ -1,49 +1,29 @@
 const liftOpenDoor = () => {
   gsap.to(liftLeftDoor, {
     x: "-100%",
-    duration: 2,
+    duration: 1.5,
     ease: Power1.easeInOut,
     onComplete: () => {
       gsap.to(liftLeftDoor, {
         x: 0,
         delay: 1,
-        duration: 1,
+        duration: 1.2,
         ease: Power1.easeInOut,
       });
     },
   });
   gsap.to(liftRightDoor, {
     x: "100%",
-    duration: 2,
+    duration: 1.5,
     ease: Power1.easeInOut,
     onComplete: () => {
       gsap.to(liftRightDoor, {
         x: 0,
         delay: 1,
-        duration: 1,
+        duration: 1.2,
         ease: Power1.easeInOut,
       });
     },
-  });
-};
-
-const liftBtnVisible = () => {
-  liftBtns.forEach((e) => {
-    gsap.to(e, {
-      cursor: "pointer",
-      opacity: 1,
-      zIndex: 1,
-    });
-  });
-};
-
-const liftBtnUnVisible = () => {
-  liftBtns.forEach((e) => {
-    gsap.to(e, {
-      cursor: "default",
-      opacity: 0.5,
-      zIndex: -1,
-    });
   });
 };
 
@@ -57,13 +37,13 @@ const liftRightDoor = document.querySelector(".lift-right-door");
 let liftAnimate = false;
 
 gsap.to(lift, {
-  top: Floors[6].getBoundingClientRect().top + "px",
+  top: Floors[5].getBoundingClientRect().top + "px",
   duration: 0,
 });
 
 const floorRequestArray = [];
 
-const flooranimationChecker = () => {
+const flooranimationChecker = (duration) => {
   if (floorRequestArray.length === 0) {
     liftAnimate = false;
     return;
@@ -74,22 +54,23 @@ const flooranimationChecker = () => {
 
   gsap.to(lift, {
     top: Floors[floorRequestArrayIndex].getBoundingClientRect().top + "px",
-    duration: 5,
+    duration: duration,
+    ease: Power4.easeInOut,
     onComplete: () => {
       liftOpenDoor();
-      flooranimationChecker();
       setTimeout(() => {
+        flooranimationChecker(4);
         gsap.to(liftBtns[floorRequestArrayIndex], {
           backgroundColor: "gray",
           zIndex: 1,
           opacity: 1,
           cursor: "pointer",
         });
-      }, 3000);
+      }, 4000);
     },
   });
 };
-flooranimationChecker();
+flooranimationChecker(4);
 
 Array.from(liftBtns).forEach((liftBtnsElem) => {
   liftBtnsElem.addEventListener("click", (liftBtnsElemTarget) => {
@@ -99,16 +80,33 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
     Array.from(Floors).forEach((e, i) => {
       if (e.textContent === liftBtnsElemTarget.currentTarget.textContent) {
         floorRequestArray.push(i);
+        if (i === 5) {
+          flooranimationChecker(1);
+        }
         gsap.to(liftBtns[i], {
           backgroundColor: "black",
-          zIndex: 0,
-          opacity: 0.5,
+          zIndex: -1,
           cursor: "not-allowed",
         });
         if (!liftAnimate) {
-          flooranimationChecker();
+          flooranimationChecker(4);
         }
       }
+    });
+  });
+});
+
+liftBtns.forEach((e) => {
+  e.addEventListener("mouseenter", () => {
+    gsap.to(e, {
+      duration: 0,
+      backgroundColor: "black",
+    });
+  });
+  e.addEventListener("mouseleave", () => {
+    gsap.to(e, {
+      duration: 0,
+      backgroundColor: "grey",
     });
   });
 });
