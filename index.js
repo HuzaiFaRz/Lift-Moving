@@ -1,7 +1,7 @@
 const liftOpenDoor = () => {
   gsap.to(liftLeftDoor, {
     x: "-100%",
-    duration: 1,
+    duration: 2,
     ease: Power1.easeInOut,
     onComplete: () => {
       gsap.to(liftLeftDoor, {
@@ -14,7 +14,7 @@ const liftOpenDoor = () => {
   });
   gsap.to(liftRightDoor, {
     x: "100%",
-    duration: 1,
+    duration: 2,
     ease: Power1.easeInOut,
     onComplete: () => {
       gsap.to(liftRightDoor, {
@@ -74,13 +74,16 @@ const flooranimationChecker = () => {
 
   gsap.to(lift, {
     top: Floors[floorRequestArrayIndex].getBoundingClientRect().top + "px",
-    duration: 1,
+    duration: 5,
     onComplete: () => {
       liftOpenDoor();
+      flooranimationChecker();
       setTimeout(() => {
-        flooranimationChecker();
         gsap.to(liftBtns[floorRequestArrayIndex], {
           backgroundColor: "gray",
+          zIndex: 1,
+          opacity: 1,
+          cursor: "pointer",
         });
       }, 3000);
     },
@@ -93,20 +96,19 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
     gsap.to(liftBtnsElem, {
       backgroundColor: "black",
     });
-
-    const FloorsFinder = Array.from(Floors).findIndex((e) => {
-      console.log(e.textContent);
-      return e.textContent === liftBtnsElemTarget.currentTarget.textContent;
-    });
-
-    if (FloorsFinder || !FloorsFinder) {
-      floorRequestArray.push(FloorsFinder);
-      gsap.to(liftBtns[FloorsFinder], {
-        backgroundColor: "black",
-      });
-      if (!liftAnimate) {
-        flooranimationChecker();
+    Array.from(Floors).forEach((e, i) => {
+      if (e.textContent === liftBtnsElemTarget.currentTarget.textContent) {
+        floorRequestArray.push(i);
+        gsap.to(liftBtns[i], {
+          backgroundColor: "black",
+          zIndex: 0,
+          opacity: 0.5,
+          cursor: "not-allowed",
+        });
+        if (!liftAnimate) {
+          flooranimationChecker();
+        }
       }
-    }
+    });
   });
 });
