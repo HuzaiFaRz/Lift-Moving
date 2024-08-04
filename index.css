@@ -4,10 +4,10 @@
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    /* transition: all 0.5s ease-in-out; */
-    user-select: none;
-    -webkit-user-drag: none;
-    -moz-user-modify: none;
+  /* transition: all 0.5s ease-in-out; */
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-modify: none;
 }
 html,
 body {
@@ -28,7 +28,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
 .floor,
@@ -68,15 +68,16 @@ body {
   top: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(rgb(190, 190, 190), gray);
 }
 
 .lift-left-door {
   left: 0;
+  background-color: #9f9ab7;
 }
 
 .lift-right-door {
   right: 0;
+  background: #a9a9a9;
 }
 
 .lift-buttons {
@@ -95,4 +96,26 @@ body {
   font-size: 20px;
   color: #ffff;
   cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .lift-floors {
+    width: 200px;
+  }
+  .floor {
+    height: 100px;
+    font-size: 20px;
+  }
+  .lift {
+    height: 100px;
+  }
+  .lift-buttons {
+    width: 100px;
+    height: 300px;
+    flex-direction: column;
+  }
+  .lift-btn {
+    padding: 7px 10px;
+    font-size: 17px;
+  }
 }
