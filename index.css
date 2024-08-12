@@ -123,14 +123,36 @@ body {
   z-index: 1;
 }
 .lift-btn {
+  width: 50px;
+  height: 50px;
   border: none;
   background-color: black;
-  padding: 10px 20px;
   font-size: 20px;
   font-weight: 500;
   color: white;
   cursor: pointer;
   border-radius: 10px;
+}
+
+#LiftBtnG {
+  position: relative;
+  overflow: hidden;
+  font-size: 0;
+}
+
+#LiftBtnG::before {
+  content: "G";
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
 }
 
 @media (max-width: 500px) {

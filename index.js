@@ -1,3 +1,12 @@
+const liftFloors = document.querySelector(".lift-floors");
+const liftBtns = document.querySelectorAll(".lift-btn");
+const Floors = document.querySelectorAll(".floor");
+const lift = document.querySelector(".lift");
+const liftLeftDoor = document.querySelector(".lift-left-door");
+const liftRightDoor = document.querySelector(".lift-right-door");
+let liftAnimate = false;
+const FLOOR_KEY = "floor";
+const floorRequestArray = [];
 const liftOpenDoor = () => {
   gsap.to(liftLeftDoor, {
     x: "-100%",
@@ -26,38 +35,11 @@ const liftOpenDoor = () => {
     },
   });
 };
-
-const liftFloors = document.querySelector(".lift-floors");
-const liftBtns = document.querySelectorAll(".lift-btn");
-const Floors = document.querySelectorAll(".floor");
-const lift = document.querySelector(".lift");
-const liftLeftDoor = document.querySelector(".lift-left-door");
-const liftRightDoor = document.querySelector(".lift-right-door");
-let liftBtnClickCheck = 0;
-let liftAnimate = false;
-const FLOOR_KEY = "floor";
-
-window.addEventListener("load", () => {
-  let saveFloorCheck = JSON.parse(localStorage.getItem(FLOOR_KEY)) || [];
-
-  // let saveFloorCheck.pop());
-
-  if (saveFloorCheck.length !== 0) {
-    gsap.to(lift, {
-      top: Floors[5].getBoundingClientRect().top + "px",
-      duration: 0,
-    });
-  }
-});
-
-const floorRequestArray = [];
-
 const flooranimationChecker = (duration) => {
   if (floorRequestArray.length === 0) {
     liftAnimate = false;
     return;
   }
-
   liftAnimate = true;
   let floorRequestArrayIndex = floorRequestArray.shift();
   gsap.to(lift, {
@@ -79,27 +61,21 @@ const flooranimationChecker = (duration) => {
   });
 };
 flooranimationChecker(4);
-
 Array.from(liftBtns).forEach((liftBtnsElem) => {
   liftBtnsElem.addEventListener("click", (liftBtnsElemTarget) => {
-    liftBtnClickCheck++;
-    gsap.to(liftBtnsElem, {
-      backgroundColor: "black",
-    });
-    let floorSave = JSON.parse(localStorage.getItem(FLOOR_KEY)) || [];
     Array.from(Floors).forEach((e, i) => {
-      if (e.textContent === liftBtnsElemTarget.currentTarget.textContent) {
+      let floorsNumber = Number(e.textContent);
+      let liftBtnsElemTargetNumber = Number(
+        liftBtnsElemTarget.currentTarget.textContent
+      );
+
+      if (floorsNumber === liftBtnsElemTargetNumber) {
         floorRequestArray.push(i);
-        floorSave.push(liftBtnsElemTarget.currentTarget.textContent);
-        localStorage.setItem(FLOOR_KEY, JSON.stringify(floorSave));
-        if (liftBtnClickCheck === 1 && i === 5) {
-          flooranimationChecker(1);
-          liftBtnClickCheck = 0;
-        }
+        localStorage.setItem(FLOOR_KEY, JSON.stringify(floorRequestArray));
         gsap.to(liftBtns[i], {
           backgroundColor: "gray",
           cursor: "not-allowed",
-          zIndex: -10,
+          zIndex: -1000000,
           opacity: 0.5,
         });
         if (!liftAnimate) {
@@ -108,4 +84,23 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
       }
     });
   });
+});
+window.addEventListener("load", () => {
+  let saveFloorCheck = JSON.parse(localStorage.getItem(FLOOR_KEY));
+  let saveFloorCheckIntoNumber = Number(saveFloorCheck);
+  if (
+    saveFloorCheck === null ||
+    saveFloorCheck === undefined ||
+    saveFloorCheck === false
+  ) {
+    gsap.to(lift, {
+      top: Floors[5].getBoundingClientRect().top + "px",
+      duration: 0,
+    });
+  } else {
+    gsap.to(lift, {
+      top: Floors[saveFloorCheckIntoNumber].getBoundingClientRect().top + "px",
+      duration: 0,
+    });
+  }
 });
