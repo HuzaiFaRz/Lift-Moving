@@ -35,10 +35,19 @@ const liftLeftDoor = document.querySelector(".lift-left-door");
 const liftRightDoor = document.querySelector(".lift-right-door");
 let liftBtnClickCheck = 0;
 let liftAnimate = false;
+const FLOOR_KEY = "floor";
 
-gsap.to(lift, {
-  top: Floors[5].getBoundingClientRect().top + "px",
-  duration: 0,
+window.addEventListener("load", () => {
+  let saveFloorCheck = JSON.parse(localStorage.getItem(FLOOR_KEY)) || [];
+
+  // let saveFloorCheck.pop());
+
+  if (saveFloorCheck.length !== 0) {
+    gsap.to(lift, {
+      top: Floors[5].getBoundingClientRect().top + "px",
+      duration: 0,
+    });
+  }
 });
 
 const floorRequestArray = [];
@@ -51,7 +60,6 @@ const flooranimationChecker = (duration) => {
 
   liftAnimate = true;
   let floorRequestArrayIndex = floorRequestArray.shift();
-
   gsap.to(lift, {
     top: Floors[floorRequestArrayIndex].getBoundingClientRect().top + "px",
     duration: duration,
@@ -64,7 +72,7 @@ const flooranimationChecker = (duration) => {
           backgroundColor: "black",
           cursor: "pointer",
           zIndex: 10,
-          opacity:1,
+          opacity: 1,
         });
       }, 4000);
     },
@@ -78,9 +86,12 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
     gsap.to(liftBtnsElem, {
       backgroundColor: "black",
     });
+    let floorSave = JSON.parse(localStorage.getItem(FLOOR_KEY)) || [];
     Array.from(Floors).forEach((e, i) => {
       if (e.textContent === liftBtnsElemTarget.currentTarget.textContent) {
         floorRequestArray.push(i);
+        floorSave.push(liftBtnsElemTarget.currentTarget.textContent);
+        localStorage.setItem(FLOOR_KEY, JSON.stringify(floorSave));
         if (liftBtnClickCheck === 1 && i === 5) {
           flooranimationChecker(1);
           liftBtnClickCheck = 0;
@@ -89,7 +100,7 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
           backgroundColor: "gray",
           cursor: "not-allowed",
           zIndex: -10,
-          opacity:0.5,
+          opacity: 0.5,
         });
         if (!liftAnimate) {
           flooranimationChecker(4);
