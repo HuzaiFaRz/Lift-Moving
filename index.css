@@ -84,7 +84,7 @@ body {
   overflow: hidden;
   width: 100%;
   height: 100%;
-  display: flex;
+  display: none;
 }
 
 .lift-left-door,
@@ -167,7 +167,7 @@ body {
   }
   .lift-buttons {
     width: 100px;
-    height: 300px;
+    height: 400px;
     flex-direction: column;
   }
   .lift-btn {
