@@ -61,10 +61,10 @@ const flooranimationChecker = (duration) => {
       setTimeout(() => {
         flooranimationChecker(4);
         gsap.to(liftBtns[floorRequestArrayIndex], {
-          backgroundColor: "gray",
-          zIndex: 1,
-          opacity: 1,
+          backgroundColor: "black",
           cursor: "pointer",
+          zIndex: 10,
+          opacity:1,
         });
       }, 4000);
     },
@@ -86,29 +86,15 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
           liftBtnClickCheck = 0;
         }
         gsap.to(liftBtns[i], {
-          backgroundColor: "black",
-          zIndex: -1,
+          backgroundColor: "gray",
           cursor: "not-allowed",
+          zIndex: -10,
+          opacity:0.5,
         });
         if (!liftAnimate) {
           flooranimationChecker(4);
         }
       }
-    });
-  });
-});
-
-liftBtns.forEach((e) => {
-  e.addEventListener("mouseenter", () => {
-    gsap.to(e, {
-      duration: 0,
-      backgroundColor: "black",
-    });
-  });
-  e.addEventListener("mouseleave", () => {
-    gsap.to(e, {
-      duration: 0,
-      backgroundColor: "grey",
     });
   });
 });
