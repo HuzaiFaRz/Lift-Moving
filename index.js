@@ -63,23 +63,29 @@ const flooranimationChecker = (duration) => {
 flooranimationChecker(4);
 Array.from(liftBtns).forEach((liftBtnsElem) => {
   liftBtnsElem.addEventListener("click", (liftBtnsElemTarget) => {
-    Array.from(Floors).forEach((e, i) => {
-      let floorsNumber = Number(e.textContent);
+    Array.from(Floors).forEach((floorElem, floorIndex) => {
+      let floorsNumber = Number(floorElem.textContent);
       let liftBtnsElemTargetNumber = Number(
         liftBtnsElemTarget.currentTarget.textContent
       );
-
       if (floorsNumber === liftBtnsElemTargetNumber) {
-        floorRequestArray.push(i);
+        floorRequestArray.push(floorIndex);
         localStorage.setItem(FLOOR_KEY, JSON.stringify(floorRequestArray));
-        gsap.to(liftBtns[i], {
+        gsap.to(liftBtns[floorIndex], {
           backgroundColor: "gray",
           cursor: "not-allowed",
           zIndex: -1000000,
           opacity: 0.5,
         });
         if (!liftAnimate) {
-          flooranimationChecker(4);
+          if (
+            lift.getBoundingClientRect().top >=
+            Floors[floorIndex].getBoundingClientRect().top
+          ) {
+            flooranimationChecker(1);
+          } else {
+            flooranimationChecker(4);
+          }
         }
       }
     });
