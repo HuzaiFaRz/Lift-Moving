@@ -45,7 +45,7 @@ const flooranimationChecker = (duration) => {
   gsap.to(lift, {
     top: Floors[floorRequestArrayIndex].getBoundingClientRect().top + "px",
     duration: duration,
-    ease: Power4.easeInOut,
+    ease: "power2.inOut",
     onComplete: () => {
       liftOpenDoor();
       setTimeout(() => {
@@ -66,11 +66,12 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
     Array.from(Floors).forEach((floorElem, floorIndex) => {
       let floorsNumber = Number(floorElem.textContent);
       let liftBtnsElemTargetNumber = Number(
-        liftBtnsElemTarget.currentTarget.textContent
+        liftBtnsElemTarget.currentTarget.textContent,
       );
       if (floorsNumber === liftBtnsElemTargetNumber) {
         floorRequestArray.push(floorIndex);
-        localStorage.setItem(FLOOR_KEY, JSON.stringify(floorRequestArray));
+        console.log(floorsNumber);
+        localStorage.setItem(FLOOR_KEY, JSON.stringify(floorsNumber));
         gsap.to(liftBtns[floorIndex], {
           backgroundColor: "gray",
           cursor: "not-allowed",
@@ -94,18 +95,20 @@ Array.from(liftBtns).forEach((liftBtnsElem) => {
 window.addEventListener("load", () => {
   let saveFloorCheck = JSON.parse(localStorage.getItem(FLOOR_KEY));
   let saveFloorCheckIntoNumber = Number(saveFloorCheck);
+  console.log(Floors[saveFloorCheckIntoNumber]);
   if (
     saveFloorCheck === null ||
     saveFloorCheck === undefined ||
     saveFloorCheck === false
   ) {
-    gsap.to(lift, {
-      top: Floors[5].getBoundingClientRect().top + "px",
+    gsap.set(lift, {
+      bottom: Floors[0].getBoundingClientRect().top + "px",
       duration: 0,
     });
   } else {
-    gsap.to(lift, {
-      top: Floors[saveFloorCheckIntoNumber].getBoundingClientRect().top + "px",
+    gsap.set(lift, {
+      bottom:
+        Floors[saveFloorCheckIntoNumber].getBoundingClientRect().top + "px",
       duration: 0,
     });
   }
